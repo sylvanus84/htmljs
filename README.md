@@ -20,7 +20,7 @@ In htmlJS object there's a constructor function for every standard HTML tag. Thi
 ```javascript
 
 function accountsTemplate(accounts) {
-  with(domJS) {
+  with(htmlJs) {
     return div({id : "accounts"},
       accounts.map(function(account){
         return tr({class : "account-row"},
