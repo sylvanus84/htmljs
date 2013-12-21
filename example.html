@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <script type="text/javascript" src="htmljs.js"></script>
+  </head>
+  <body>
+    
+    <script type="text/javascript">
+
+      var tableTemplate = function(users) {
+        with(htmlJs) {
+          return table({ id : "users-table"},
+            users.map(userTemplate)
+          )
+        }
+      }
+
+      var userTemplate = function(user) {
+        with(htmlJs) {          
+          return tr({ class : "user"}, 
+            td({ class : "user-name"},
+              user.name),
+            td({ class : "user-email"},
+              user.email),
+            td({ class : "phone-numbers"},
+              interlace(',',
+                user.likings.map(function(number) {
+                  return a({href : "#"}, i({ style : "margin-left: 10px"}, number));
+                })
+              )
+            )
+          )
+        }
+      }
+
+      var users = [
+        {
+          name : "John Smith",
+          email : "johnsmith@gmail.com",
+          likings : ["pizza", "beer"]
+        },
+        {
+          name : "Steve Smith",
+          email : "stevesmith@yahoo.com",
+          likings : ["icecream", "fruits"]
+        }
+      ];
+
+      document.getElementsByTagName("body")[0].appendChild(tableTemplate(users));
+    </script>
+  </body>
+</html>
