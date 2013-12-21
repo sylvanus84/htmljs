@@ -7,12 +7,12 @@ Examples:
 
 ```javascript
 with(htmlJs) {
-  div({ class : "content" }, "Context");
+  div({ class : "content" }, "Content");
 }
 
 //returns the DIV as HTMLElement:
 
-<div class="content">Context</div>
+<div class="content">Content</div>
 ```
 
 In htmlJS object there's a constructor function for every standard HTML tag. This can be very handy in many cases:
