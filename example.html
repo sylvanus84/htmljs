@@ -6,6 +6,19 @@
     
     <script type="text/javascript">
 
+      //a helper function to interlace an array with any string.
+      var interlace = function(str, array) {
+        var interlaced = [];
+        for (var idx = 0, len = array.length; idx < len; idx++) {
+            if (idx < len - 1) {
+                interlaced.push(array[idx], str);
+            } else {
+                interlaced.push(array[idx]);
+            }
+        }
+        return interlaced;
+      };
+
       var tableTemplate = function(users) {
         with(htmlJs) {
           return table({ id : "users-table"},

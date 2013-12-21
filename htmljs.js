@@ -50,17 +50,6 @@ var htmlJs = (function(window) {
         htmlJs[elem] = getElemCreatorFn(elem);
     });
 
-    htmlJs.interlace = function(str, array) {
-        var interlaced = [];
-        for (var idx = 0, len = array.length; idx < len; idx++) {
-            if (idx < len - 1) {
-                interlaced.push(array[idx], str);
-            } else {
-                interlaced.push(array[idx]);
-            }
-        }
-        return interlaced;
-    };
 
     return htmlJs;
     
