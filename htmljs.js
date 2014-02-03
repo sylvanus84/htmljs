@@ -1,4 +1,4 @@
-var htmlJs = (function(window) {
+var htmlJsCompile = (function(window) {
 
     var htmlJs = {},
         document = window.document,
@@ -9,13 +9,15 @@ var htmlJs = (function(window) {
     var appender = function(argument, elem) {
 
         if (typeof argument === 'string') {
-            elem.appendChild(document.createTextNode(argument));
+            elem.appendChild(
+                document.createTextNode(argument)
+            );
         }
 
         if (Object.prototype.toString.call(argument) === '[object Array]') {
-            argument.forEach(function(arg) {
-                appender(arg, elem);
-            });
+            for (var i = 0, len = argument.length; i < len; i++) {
+                appender(argument[i], elem);
+            }
         }
 
         if (argument instanceof HTMLElement) {
@@ -38,19 +40,25 @@ var htmlJs = (function(window) {
                 args.shift();
             }
 
-            args.forEach(function(argument) {
-                appender(argument, elem);
-            });
+            for (var i = 0, len = args.length; i < len; i++) {
+                appender(args[i], elem);
+            }
 
             return elem;
         };
     };
 
-    tags.forEach(function(elem) {
-        htmlJs[elem] = getElemCreatorFn(elem);
+    var compile = function compile(fn) {
+        eval("var __res__ = " + 
+            fn.toString().replace(/{/, "{ with(htmlJs) { return (").replace(/}[^}]*$/, ") } }")
+        );
+        return __res__;
+    }
+
+    tags.forEach(function(tag) {
+        htmlJs[tag] = getElemCreatorFn(tag);
     });
 
-
-    return htmlJs;
+    return compile;
     
 })(window);

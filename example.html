@@ -19,31 +19,33 @@
         return interlaced;
       };
 
-      var tableTemplate = function(users) {
-        with(htmlJs) {
-          return table({ id : "users-table"},
-            users.map(userTemplate)
-          )
-        }
-      }
+      var tableTemplate = function(users, userTemplate, likingsTemplate) {
+        table({ id : "users-table"},
+          users.map(function(user) {
+            return userTemplate(user, likingsTemplate);
+          })
+        )
+      };
 
-      var userTemplate = function(user) {
-        with(htmlJs) {          
-          return tr({ class : "user"}, 
-            td({ class : "user-name"},
-              user.name),
-            td({ class : "user-email"},
-              user.email),
-            td({ class : "phone-numbers"},
-              interlace(',',
-                user.likings.map(function(number) {
-                  return a({href : "#"}, i({ style : "margin-left: 10px"}, number));
-                })
-              )
+      var userTemplate = function(user, likingsTemplate) {
+        tr({ class : "user"}, 
+          td({ class : "user-name"},
+            user.name),
+          td({ class : "user-email"},
+            user.email),
+          td({ class : "phone-numbers"},
+            interlace(',',
+              user.likings.map(likingsTemplate)
             )
           )
-        }
+        )
       }
+
+      var likingsTemplate = function(thing) {
+        a({href : "#"}, 
+          i({ style : "margin-left: 10px"}, thing)
+        )
+      };
 
       var users = [
         {
@@ -55,10 +57,17 @@
           name : "Steve Smith",
           email : "stevesmith@yahoo.com",
           likings : ["icecream", "fruits"]
+        },
+        {
+          name : "James Knight",
+          email : "jamesknight@yahoo.com",
+          likings : []
         }
       ];
 
-      document.getElementsByTagName("body")[0].appendChild(tableTemplate(users));
+      document.getElementsByTagName("body")[0].appendChild(
+        htmlJsCompile(tableTemplate)(users, htmlJsCompile(userTemplate), htmlJsCompile(likingsTemplate))
+      );
     </script>
   </body>
 </html>
