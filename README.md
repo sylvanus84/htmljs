@@ -36,6 +36,70 @@ function accountsTemplate(accounts) {
 
 The first parameter is the attributes object, it is optional. All the remaining parameters will be the children of the element.
 
-I know using 'with' is uncomfortable, I'm working on getting rid of it.
+Check out the example in 'example.html'.
 
-Checkout the example in 'example.html'.
+Comparison with another templating engine:
+
+```
+<template name="Products">
+    {{#each ProductArr}}
+        <div class="Product">
+            <h2>{{Name}}</h2>
+            <p>Price: ${{Price}}</p>
+            {{#if this.InStock}}
+                <p>This Item is in stock</p>
+            {{else}}
+                <p>This Item is currently sold out</p>
+            {{/if}}
+        </div>
+    {{/each}}
+</template>
+
+<template name="Cart">
+    <div id="Cart">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            {{#each CartItems}}
+                <tr>
+                    <td>{{Name}}</td>
+                    <td>${{Price}}</td>
+                    <td>{{Quantity}}</td>
+                    <td>${{Total}}</td>
+                </tr>
+            {{/each}}
+            <tr>
+                <td colspan="4">Total: ${{SubTotal}}</td>
+            </tr>
+    </div>
+</template>
+```
+
+The same with htmljs:
+
+```
+function products(productArr) {
+    productArr.map(function(product) {
+        div({ class: "Product"},
+            h2(product.Name),
+            p("Price: " + product.Price),
+            p("This item is " + product.inStock ? "in stock" : "currently sold out"))})    
+}
+
+function cart(CartItems) {
+    div({ id: "Cart" },
+        table(
+            tr(
+                ["Name, Price, Quantity, Total"].map(th)),
+            CartItems.map(function(Item) {
+                tr(
+                    [Item.Name, "$" + Item.Price, Item.Quantity, "$" + Item.Total].map(td))}),
+            tr(
+                td({ colspan: "4"},
+                    "Total: $" + subTotal))))
+}
+```
